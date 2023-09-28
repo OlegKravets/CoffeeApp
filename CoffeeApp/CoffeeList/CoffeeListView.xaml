@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:CoffeeApp.Models"
+             xmlns:local="clr-namespace:CoffeeApp.CoffeeList"
+             x:Class="CoffeeApp.CoffeeList.CoffeeListView"
+             x:DataType="local:CoffeeListViewModel"
+             Title="{Binding Title}">
+    <Grid ColumnDefinitions="*,*"
+          ColumnSpacing="5"
+          RowDefinitions="*,Auto"
+          RowSpacing="0"
+          BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+        <RefreshView Grid.ColumnSpan="2"
+                     Command="{Binding LoadCoffeesCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <ContentView>
+                <CollectionView ItemsSource="{Binding CoffeeList}"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="100">
+                            <Image HorizontalOptions="Center"
+                                   HeightRequest="160"
+                                   WidthRequest="160"
+                                   Source="unknown.png"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                         Span="2"
+                                         HorizontalItemSpacing="5"
+                                         VerticalItemSpacing="5" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Coffee">
+                            <Frame Style="{StaticResource CardView}">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type local:CoffeeListViewModel}}, Path=GoToDetailsCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Buy"
+                                                       BackgroundColor="Green"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:CoffeeListViewModel}}, Path=AddToOrderCommand}"
+                                                       CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <VerticalStackLayout VerticalOptions="Center"
+                                                         Grid.Column="1"
+                                                         Padding="10">
+                                        <Image Aspect="AspectFill"
+                                               HeightRequest="125"
+                                               Source="{Binding Image}" />
+                                        <Label Style="{StaticResource LargeLabel}"
+                                               Text="{Binding Name}" />
+                                        <Label Style="{StaticResource MediumLabel}"
+                                               Text="{Binding Description}" />
+                                    </VerticalStackLayout>
+                                </SwipeView>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+
+        <HorizontalStackLayout VerticalOptions="End">
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="8"
+                    Command="{Binding LoadCoffeesCommand}"
+                    IsEnabled="{Binding IsNotBusy}"
+                    Style="{StaticResource ButtonOutline}"
+                    Text="Get Coffees" />
+
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="8"
+                    IsEnabled="{Binding CanCompleteOrder}"
+                    Command="{Binding CompleteOrderCommand}"
+                    Style="{StaticResource ButtonOutline}"
+                    Text="Complete Order" />
+        </HorizontalStackLayout>
+
+        <ActivityIndicator Grid.RowSpan="2"
+                           Grid.ColumnSpan="2"
+                           HorizontalOptions="Fill"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center" />
+    </Grid>
+</ContentPage>

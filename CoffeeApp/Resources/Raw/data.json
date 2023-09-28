@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 0,
+    "Name": "Espresso",
+    "Description": "Black coffee. 30 mL.",
+    "Price": 1.2,
+    "Image": "Resources/Images/Espresso.jpg"
+  },
+  {
+    "Id": 1,
+    "Name": "Americano",
+    "Description": "Black coffee. 200 mL.",
+    "Price": 1.8,
+    "Image": "Resources/Images/Americano.jpg"
+  },
+  {
+    "Id": 2,
+    "Name": "Cappuccino",
+    "Description": "Black coffee with milk. 200 mL.",
+    "Price": 3.4,
+    "Image": "Resources/Images/Cappuccino.jpg"
+  },
+  {
+    "Id": 3,
+    "Name": "Latte",
+    "Description": "Black coffee with milk. 250 mL.",
+    "Price": 3.6,
+    "Image": "Resources/Images/Latte.jpg"
+  }
+]
